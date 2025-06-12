@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Security Alert</title>
+<title>SECURITY ALERT - SYSTEM COMPROMISED</title>
 <style>
   html, body {
     height: 100%;
@@ -15,36 +15,43 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 30px;
+    padding: 40px 30px;
   }
   #container {
-    max-width: 900px;
+    max-width: 1000px;
     width: 100%;
   }
   h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
+    font-size: 4rem;
+    margin-bottom: 40px;
+    font-weight: 900;
   }
   p#main-text {
-    font-size: 1.2rem;
-    line-height: 1.7;
-    margin-bottom: 30px;
+    font-size: 1.6rem;
+    line-height: 1.9;
+    margin-bottom: 50px;
+    user-select: none;
   }
   ul {
     text-align: left;
-    font-size: 1.1rem;
-    margin-bottom: 40px;
+    font-size: 1.4rem;
+    margin-bottom: 60px;
     list-style-type: disc;
-    padding-left: 20px;
-    max-height: 250px;
+    padding-left: 30px;
+    max-height: 300px;
     overflow-y: auto;
+    user-select: none;
+  }
+  ul li {
+    margin-bottom: 18px;
+    color: #c0d6ff;
   }
   .progress-container {
     width: 100%;
     background-color: #004080;
-    border: 2px solid #003060;
-    border-radius: 8px;
-    height: 30px;
+    border: 3px solid #003060;
+    border-radius: 12px;
+    height: 40px;
     overflow: hidden;
     margin-bottom: 40px;
   }
@@ -52,46 +59,60 @@
     height: 100%;
     background-color: #3399ff;
     width: 0%;
-    line-height: 30px;
+    line-height: 40px;
     color: black;
-    font-weight: bold;
+    font-weight: 900;
+    font-size: 1.4rem;
+    transition: width 1s linear;
+    user-select: none;
   }
   #timer {
-    font-weight: bold;
+    font-weight: 900;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    user-select: none;
+  }
+  #data-extracted {
     font-size: 1.3rem;
-    margin-bottom: 40px;
+    color: #a9cfff;
+    margin-bottom: 50px;
+    font-weight: 600;
+    user-select: none;
   }
   #disclaimer {
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: #ccc;
     display: none;
+    user-select: none;
   }
 </style>
 </head>
 <body>
-  <div id="container">
+  <div id="container" role="main" aria-label="Security alert">
     <h1>⚠ SECURITY ALERT ⚠</h1>
-    <p id="main-text">
-      Your system is currently compromised. Hackers are actively monitoring your device and performing multiple malicious activities. They can see everything you do, including your private documents, passwords, browsing activity, and even your webcam feed. Immediate action is required to prevent further data theft and system damage. The following suspicious activities have been detected:
+    <p id="main-text" aria-live="assertive">
+      Your system has been <strong>compromised</strong>. Unknown hackers are actively exploiting your device and performing invasive surveillance. They have full access to your activities, communications, files, and connected devices. Sensitive information including passwords, emails, banking details, private photos, and webcam feeds are currently being harvested in real-time.<br><br>
+      The following malicious activities are underway without your consent:
     </p>
-    <ul>
-      <li>Recording keystrokes to capture passwords and personal messages.</li>
-      <li>Accessing your webcam and microphone without permission.</li>
-      <li>Scanning and copying sensitive files from your system.</li>
-      <li>Intercepting and redirecting network traffic.</li>
-      <li>Installing backdoors for persistent unauthorized access.</li>
-      <li>Monitoring real-time screen activity.</li>
-      <li>Exfiltrating stored browser credentials and cookies.</li>
-      <li>Modifying system settings to disable security features.</li>
-      <li>Injecting malicious scripts into active browser sessions.</li>
-      <li>Deploying ransomware encryption routines.</li>
+    <ul aria-live="polite">
+      <li>Continuous keystroke logging capturing every password and message.</li>
+      <li>Unauthorized access to your webcam and microphone feeds.</li>
+      <li>Massive data exfiltration of personal, financial, and corporate files.</li>
+      <li>Live screen capture being streamed to remote locations.</li>
+      <li>Manipulation of system processes and security software.</li>
+      <li>Installation of rootkits and persistent backdoors.</li>
+      <li>Hijacking network traffic and redirecting secure connections.</li>
+      <li>Extraction of browser history, cookies, and autofill data.</li>
+      <li>Encryption of files in preparation for ransomware deployment.</li>
+      <li>Activation of remote control features to monitor all device inputs.</li>
     </ul>
 
-    <div class="progress-container">
-      <div class="progress-bar" id="progress-bar">Extracting Information...</div>
+    <div class="progress-container" aria-label="Data extraction progress">
+      <div class="progress-bar" id="progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">Extracting Information...</div>
     </div>
-    <div id="timer">Time Remaining: 200:00 minutes</div>
-    <div id="disclaimer">
+    <div id="timer" aria-live="off" aria-atomic="true">Time Remaining: 200:00 minutes</div>
+    <div id="data-extracted" aria-live="polite">Data extracted: 0 files</div>
+    <div id="disclaimer" role="note" aria-live="polite">
       <strong>Disclaimer:</strong> This is a simulation created for educational and awareness purposes only. No actual compromise has occurred.
     </div>
   </div>
@@ -102,12 +123,21 @@
 
   const progressBar = document.getElementById('progress-bar');
   const timer = document.getElementById('timer');
+  const dataExtracted = document.getElementById('data-extracted');
   const disclaimer = document.getElementById('disclaimer');
+
+  // Simulate growing data extracted count for realism
+  let filesExtracted = 0;
+  const maxFiles = 1350000;
 
   function formatTime(seconds) {
     const m = Math.floor(seconds / 60);
     const s = seconds % 60;
     return `${m.toString().padStart(3, '0')}:${s.toString().padStart(2, '0')}`;
+  }
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
   function updateProgress() {
@@ -116,13 +146,21 @@
       progressBar.style.width = '100%';
       progressBar.textContent = 'Extraction Complete';
       timer.style.display = 'none';
+      dataExtracted.style.display = 'none';
       disclaimer.style.display = 'block';
       return;
     }
     const percent = ((totalSeconds - remainingSeconds) / totalSeconds) * 100;
-    progressBar.style.width = percent + '%';
+    progressBar.style.width = percent.toFixed(2) + '%';
     progressBar.textContent = 'Extracting Information...';
+
     timer.textContent = `Time Remaining: ${formatTime(remainingSeconds)} minutes`;
+
+    // Increase files extracted roughly proportionally (with some variation)
+    filesExtracted += Math.floor((maxFiles / totalSeconds) * (Math.random() * 1.5));
+    if (filesExtracted > maxFiles) filesExtracted = maxFiles;
+    dataExtracted.textContent = `Data extracted: ${numberWithCommas(filesExtracted)} files`;
+
     remainingSeconds--;
   }
 
