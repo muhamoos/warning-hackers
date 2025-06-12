@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Security Alert</title>
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #001f4d; /* dark blue */
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+  }
+  #container {
+    max-width: 900px;
+    width: 100%;
+  }
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  p#main-text {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    margin-bottom: 30px;
+  }
+  ul {
+    text-align: left;
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+    list-style-type: disc;
+    padding-left: 20px;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+  .progress-container {
+    width: 100%;
+    background-color: #004080;
+    border: 2px solid #003060;
+    border-radius: 8px;
+    height: 30px;
+    overflow: hidden;
+    margin-bottom: 40px;
+  }
+  .progress-bar {
+    height: 100%;
+    background-color: #3399ff;
+    width: 0%;
+    line-height: 30px;
+    color: black;
+    font-weight: bold;
+  }
+  #timer {
+    font-weight: bold;
+    font-size: 1.3rem;
+    margin-bottom: 40px;
+  }
+  #disclaimer {
+    font-size: 1rem;
+    color: #ccc;
+    display: none;
+  }
+</style>
+</head>
+<body>
+  <div id="container">
+    <h1>⚠ SECURITY ALERT ⚠</h1>
+    <p id="main-text">
+      Your system is currently compromised. Hackers are actively monitoring your device and performing multiple malicious activities. They can see everything you do, including your private documents, passwords, browsing activity, and even your webcam feed. Immediate action is required to prevent further data theft and system damage. The following suspicious activities have been detected:
+    </p>
+    <ul>
+      <li>Recording keystrokes to capture passwords and personal messages.</li>
+      <li>Accessing your webcam and microphone without permission.</li>
+      <li>Scanning and copying sensitive files from your system.</li>
+      <li>Intercepting and redirecting network traffic.</li>
+      <li>Installing backdoors for persistent unauthorized access.</li>
+      <li>Monitoring real-time screen activity.</li>
+      <li>Exfiltrating stored browser credentials and cookies.</li>
+      <li>Modifying system settings to disable security features.</li>
+      <li>Injecting malicious scripts into active browser sessions.</li>
+      <li>Deploying ransomware encryption routines.</li>
+    </ul>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar">Extracting Information...</div>
+    </div>
+    <div id="timer">Time Remaining: 200:00 minutes</div>
+    <div id="disclaimer">
+      <strong>Disclaimer:</strong> This is a simulation created for educational and awareness purposes only. No actual compromise has occurred.
+    </div>
+  </div>
+
+<script>
+  const totalSeconds = 200 * 60; // 200 minutes
+  let remainingSeconds = totalSeconds;
+
+  const progressBar = document.getElementById('progress-bar');
+  const timer = document.getElementById('timer');
+  const disclaimer = document.getElementById('disclaimer');
+
+  function formatTime(seconds) {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m.toString().padStart(3, '0')}:${s.toString().padStart(2, '0')}`;
+  }
+
+  function updateProgress() {
+    if (remainingSeconds <= 0) {
+      clearInterval(interval);
+      progressBar.style.width = '100%';
+      progressBar.textContent = 'Extraction Complete';
+      timer.style.display = 'none';
+      disclaimer.style.display = 'block';
+      return;
+    }
+    const percent = ((totalSeconds - remainingSeconds) / totalSeconds) * 100;
+    progressBar.style.width = percent + '%';
+    progressBar.textContent = 'Extracting Information...';
+    timer.textContent = `Time Remaining: ${formatTime(remainingSeconds)} minutes`;
+    remainingSeconds--;
+  }
+
+  updateProgress();
+  const interval = setInterval(updateProgress, 1000);
+</script>
+</body>
+</html>
